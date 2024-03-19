@@ -1,6 +1,10 @@
 package com.pfe_app.eya.service.admin;
 
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.pfe_app.eya.entities.User;
@@ -10,9 +14,9 @@ import com.pfe_app.eya.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 
 @Service
-public class AdminServiceImpl {
+public class AdminServiceImpl implements AdminService{
 
-	
+	@Autowired
 	private final UserRepository userRepository;
 	
 	public AdminServiceImpl(UserRepository userRepository) {
@@ -33,5 +37,12 @@ public class AdminServiceImpl {
 		}
 			
 		
+	}
+
+
+	@Override
+	public Optional<User> getUser(String email, String password) {
+		
+		return userRepository.findFirstByEmail(email);
 	}
 }
