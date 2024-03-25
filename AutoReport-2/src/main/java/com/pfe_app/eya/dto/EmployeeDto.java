@@ -1,24 +1,10 @@
-package com.pfe_app.eya.entities;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+package com.pfe_app.eya.dto;
 
 import java.util.Date;
 
-import com.pfe_app.eya.enums.UserRole;
+public class EmployeeDto {
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "users")
-
-public class User {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY )
-	private long id;
+	private long id; 
 	
 	private String name;
 	
@@ -28,18 +14,6 @@ public class User {
 	
 	private Date dob;
 	
-	private String gender;
-	
-	private UserRole role;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public String getName() {
 		return name;
 	}
@@ -64,14 +38,6 @@ public class User {
 		this.password = password;
 	}
 
-	public UserRole getRole() {
-		return role;
-	}
-
-	public void setRole(UserRole role) {
-		this.role = role;
-	}
-
 	public Date getDob() {
 		return dob;
 	}
@@ -86,6 +52,16 @@ public class User {
 
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	private String gender;
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 	

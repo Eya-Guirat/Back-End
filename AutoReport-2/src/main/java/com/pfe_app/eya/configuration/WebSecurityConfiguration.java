@@ -12,6 +12,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.pfe_app.eya.filters.JwtRequestFilter;
 
 
 @Configuration
@@ -20,16 +23,25 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfiguration {
 	
 	
+	private final JwtRequestFilter jwtRequestFilter;
+	
+	public WebSecurityConfiguration(JwtRequestFilter jwtRequestFilter) {
+		this.jwtRequestFilter = jwtRequestFilter;
+	}
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 		return httpSecurity.csrf().disable()
 				.authorizeHttpRequests().requestMatchers("/authenticate").permitAll()
 				.and()	
-				.authorizeHttpRequests().requestMatchers("/api/**\"").authenticated()
+				.authorizeHttpRequests().requestMatchers("/api/**")
+				.authenticated()
 				.and()
 				.sessionManagement()
 				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				.and().build();
+				.and()
+				.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+				.build();
 	}
 	
 
