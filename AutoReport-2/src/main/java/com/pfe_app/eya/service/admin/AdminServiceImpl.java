@@ -2,13 +2,16 @@ package com.pfe_app.eya.service.admin;
 
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.pfe_app.eya.dto.EmployeeDto;
+import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.enums.UserRole;
 import com.pfe_app.eya.repository.UserRepository;
@@ -62,6 +65,47 @@ public class AdminServiceImpl implements AdminService{
 			createdEmployeeDto.setId(createdUser.getId());
 			createdEmployeeDto.setEmail(createdUser.getEmail());
 			return createdEmployeeDto;
+		}
+		return null;
+	}
+
+
+	@Override
+	public List<EmployeeDto> getAllEmployee() {
+		return userRepository.findAllByRole(UserRole.EMPLOYEE).stream().map(User::getEmployeeDto).collect(Collectors.toList());
+	}
+
+
+	@Override
+	public void deleteEmployee(Long employeeId) {
+		userRepository.deleteById(employeeId);
+		
+	}
+	
+	@Override
+	public SingleEmployeeDto getEmployeeById(Long employeeId) {
+		Optional<User> optionalUser = userRepository.findById(employeeId);
+		
+			SingleEmployeeDto singleEmployeeDto = new SingleEmployeeDto();
+			optionalUser.ifPresent(user -> singleEmployeeDto.setEmployeeDto(user.getEmployeeDto()));		
+			return singleEmployeeDto;
+	}
+
+
+	@Override
+	public EmployeeDto updateEmployee(Long employeeId, EmployeeDto employeeDto) {
+		Optional<User> optionalUser = userRepository.findById(employeeId);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+			user.setName(employeeDto.getName());
+			user.setGender(employeeDto.getGender());
+			user.setDob(employeeDto.getDob());
+			user.setEmail(employeeDto.getEmail());
+			user.setPassword(employeeDto.getPassword());
+			User updatedEmployee = userRepository.save(user);
+			EmployeeDto updatedEmployeeDto = new EmployeeDto();
+			updatedEmployeeDto.setId(updatedEmployee.getId());
+			return updatedEmployeeDto;
 		}
 		return null;
 	}

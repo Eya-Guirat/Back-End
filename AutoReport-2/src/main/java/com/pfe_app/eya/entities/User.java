@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 
 import java.util.Date;
 
+import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.enums.UserRole;
 
 import jakarta.persistence.*;
@@ -88,6 +89,17 @@ public class User {
 		this.gender = gender;
 	}
 	
+	
+	public EmployeeDto getEmployeeDto() {
+		EmployeeDto employeeDto = new EmployeeDto();
+		employeeDto.setId(id);
+		employeeDto.setName(name);
+		employeeDto.setEmail(email);
+		employeeDto.setPassword(password);
+		employeeDto.setGender(gender);
+		employeeDto.setDob(dob);
+		return employeeDto;
+	}
 	
 	
 }
