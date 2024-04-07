@@ -19,6 +19,10 @@ public class project {
 	
 	private String name;
 	
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
 	public Long getId() {
 		return id;
 	}
@@ -35,14 +39,6 @@ public class project {
 		this.name = name;
 	}
 
-	public Long getUserid() {
-		return userid;
-	}
-
-	public void setUserid(Long userid) {
-		this.userid = userid;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -50,10 +46,4 @@ public class project {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	private Long userid;
-	
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "user_id", nullable = false)
-	private User user;
 }

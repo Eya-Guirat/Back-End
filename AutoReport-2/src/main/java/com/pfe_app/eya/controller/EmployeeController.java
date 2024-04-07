@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/employee")
-@RequiredArgsConstructor
 public class EmployeeController {
 	
 	@Autowired
@@ -38,6 +37,7 @@ public class EmployeeController {
 	
 	@PostMapping("/project")
 	public ResponseEntity<?> applyProject(@RequestBody ProjectDto projectDto){
+		System.out.println(projectDto);
 		ProjectDto submittedProjectDto  = employeeService.applyProject(projectDto);
 		if (submittedProjectDto == null)
 			return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
