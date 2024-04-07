@@ -6,7 +6,9 @@ import lombok.Data;
 public class ProjectDto {
 	
 	private Long id;
-	
+	private String name;
+	private Long userid;
+
 	public Long getId() {
 		return id;
 	}
@@ -23,16 +25,11 @@ public class ProjectDto {
 		this.name = name;
 	}
 
-	public void setUserid(Long userid) {
-		this.userid = userid;
+	public Long getUserid() {
+		return userid;
 	}
 
-	private String name;
-
-	private Long userid;
-
-	public Long getUserid() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setUserid(Long userid) {
+		this.userid = userid;
 	}
 }
