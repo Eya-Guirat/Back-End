@@ -101,7 +101,9 @@ public class AdminServiceImpl implements AdminService{
 			user.setGender(employeeDto.getGender());
 			user.setDob(employeeDto.getDob());
 			user.setEmail(employeeDto.getEmail());
-			user.setPassword(employeeDto.getPassword());
+			if (employeeDto.getPassword() != null && !employeeDto.getPassword().isEmpty()) {
+				  user.setPassword(new BCryptPasswordEncoder().encode(employeeDto.getPassword()));
+				}
 			User updatedEmployee = userRepository.save(user);
 			EmployeeDto updatedEmployeeDto = new EmployeeDto();
 			updatedEmployeeDto.setId(updatedEmployee.getId());
