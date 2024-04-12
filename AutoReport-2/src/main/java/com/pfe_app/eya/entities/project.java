@@ -1,5 +1,7 @@
 package com.pfe_app.eya.entities;
 
+import com.pfe_app.eya.dto.ProjectDto;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +17,7 @@ public class project {
 	
 	@Id 
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
 	
 	private String name;
 	
@@ -23,12 +25,12 @@ public class project {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setId(long i) {
+		this.id = i;
 	}
 
 	public String getName() {
@@ -46,4 +48,6 @@ public class project {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	
 }

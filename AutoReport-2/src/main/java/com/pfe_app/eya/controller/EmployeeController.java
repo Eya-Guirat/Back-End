@@ -1,6 +1,7 @@
 package com.pfe_app.eya.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.entities.User;
+import com.pfe_app.eya.entities.project;
 import com.pfe_app.eya.service.employee.EmployeeService;
 
 import lombok.RequiredArgsConstructor;
@@ -44,5 +48,12 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(submittedProjectDto);
 			
 	}
+	
+	@GetMapping("/projects")
+	public ResponseEntity<Optional<project>> getAllProjects(@RequestBody User user){
+	 	Optional<project> allProjects = employeeService.getAllProjects(user);
+	 	return ResponseEntity.ok(allProjects);
+	}
+	
 
 }
