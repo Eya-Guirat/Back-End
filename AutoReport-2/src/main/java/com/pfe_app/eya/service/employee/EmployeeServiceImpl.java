@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.dto.SingleProjectDto;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.project;
 import com.pfe_app.eya.repository.ProjectRepository;
@@ -69,9 +70,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Optional<project> getAllProjects(User user) {
-		return projectRepository.findAllByUser(user);
+	public List<ProjectDto> getAllProjects() {
+		return projectRepository.findAll().stream().map(project::getProjectDto).collect(Collectors.toList());
 	}
+
+	@Override
+	public void deleteProject(Long projectId) {
+		projectRepository.deleteById(projectId);
+		
+	}
+
+	@Override
+	public SingleProjectDto getProjectById(Long projectId) {
+		Optional<project> optionalProject = projectRepository.findById(projectId);
+		if (optionalProject.isPresent()) {
+			SingleProjectDto singleProjectDto = new SingleProjectDto();
+			singleProjectDto.setProjectDto(optionalProject.get().getProjectDto());
+			return singleProjectDto;
+		}
+		return null;
+	}
+
+	@Override
+	public ProjectDto updateProject(Long projectId, ProjectDto projectDto) {
+		Optional<project> optionalProject = projectRepository.findById(projectId);
+		if (optionalProject.isPresent()) {
+			project updateProject = optionalProject.get();
+			updateProject.setName(projectDto.getName());
+			project updatedProject = projectRepository.save(updateProject);
+			ProjectDto updatedProjectDto = new ProjectDto();
+			updatedProjectDto.setId(updatedProject.getId());
+			return updatedProjectDto;
+		}
+		return null;
+	}
+
+	
 
 
 	

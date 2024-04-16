@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.dto.SingleProjectDto;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.project;
 
@@ -14,7 +15,14 @@ public interface EmployeeService {
 
 	ProjectDto applyProject(ProjectDto projectDto);
 
-	Optional<project> getAllProjects(User user);
+	List<ProjectDto> getAllProjects();
+
+	void deleteProject(Long projectId);
+
+	SingleProjectDto getProjectById(Long projectId);
+
+	ProjectDto updateProject(Long projectId, ProjectDto projectDto);
+
 
 
 }

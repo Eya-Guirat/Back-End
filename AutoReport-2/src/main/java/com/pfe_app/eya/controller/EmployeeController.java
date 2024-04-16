@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.dto.SingleProjectDto;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.project;
 import com.pfe_app.eya.service.employee.EmployeeService;
@@ -50,10 +53,33 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/projects")
-	public ResponseEntity<Optional<project>> getAllProjects(@RequestBody User user){
-	 	Optional<project> allProjects = employeeService.getAllProjects(user);
+	public ResponseEntity<List<ProjectDto>> getAllProjects(){
+	 	List<ProjectDto> allProjects = employeeService.getAllProjects();
 	 	return ResponseEntity.ok(allProjects);
 	}
 	
+	@DeleteMapping("/project/{projectId}")
+	public ResponseEntity<Void> deleteProject(@PathVariable Long projectId){
+		employeeService.deleteProject(projectId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/project/{projectId}")
+	public ResponseEntity<SingleProjectDto> getProjectById(@PathVariable Long projectId){
+		SingleProjectDto singleProjectDto = employeeService.getProjectById(projectId);
+		if (singleProjectDto == null)
+			return ResponseEntity.notFound().build();
+		return ResponseEntity.ok(singleProjectDto);
+	} 
+	
+	@PutMapping("/project/{projectId}")
+	public ResponseEntity<?> updateProject(@PathVariable Long projectId,@RequestBody ProjectDto projectDto ){
+			
+		ProjectDto updatedProjectDto = employeeService.updateProject(projectId,projectDto);
+		if (updatedProjectDto == null)
+			return new ResponseEntity<>("something went wrong.", HttpStatus.BAD_REQUEST);
+		return ResponseEntity.status(HttpStatus.OK).body(updatedProjectDto);
+	}
+
 
 }

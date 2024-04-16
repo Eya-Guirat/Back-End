@@ -49,5 +49,11 @@ public class project {
 		this.user = user;
 	}
 	
+	public ProjectDto getProjectDto() {
+		ProjectDto projectDto = new ProjectDto();
+		projectDto.setId(id);
+		projectDto.setName(name);
+		return projectDto;
+	}
 	
 }

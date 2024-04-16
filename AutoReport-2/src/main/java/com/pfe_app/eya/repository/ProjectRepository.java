@@ -12,6 +12,6 @@ import com.pfe_app.eya.entities.project;
 public interface ProjectRepository extends JpaRepository<project, Long> {
 
 	Optional<project> findAllByUser(User user);
-	//Optional<User> findFirstByEmail(String email);
+
 
 }
