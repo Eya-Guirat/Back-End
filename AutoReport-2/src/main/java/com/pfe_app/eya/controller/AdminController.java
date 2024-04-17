@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.service.admin.AdminService;
 
 @RestController
@@ -66,6 +67,13 @@ public class AdminController {
 		if (createdEmployeeDto == null)
 			return new ResponseEntity<>("something went wrong.", HttpStatus.BAD_REQUEST);
 		return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployeeDto);
+	}
+	
+	@GetMapping("/vacations")
+	public ResponseEntity<List<VacationDto>> getAllAppliedVacations(){
+	 	List<VacationDto> vacationDtos = adminService.getAllAppliedVacations();
+	 	if (vacationDtos == null) return ResponseEntity.notFound().build();
+	 	return ResponseEntity.ok(vacationDtos);
 	}
 	
 

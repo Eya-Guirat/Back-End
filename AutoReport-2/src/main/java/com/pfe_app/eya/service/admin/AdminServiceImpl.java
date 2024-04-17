@@ -12,9 +12,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
+import com.pfe_app.eya.entities.Vacation;
 import com.pfe_app.eya.enums.UserRole;
 import com.pfe_app.eya.repository.UserRepository;
+import com.pfe_app.eya.repository.VacationRepository;
 
 import jakarta.annotation.PostConstruct;
 
@@ -23,6 +26,9 @@ public class AdminServiceImpl implements AdminService{
 
 	@Autowired
 	private final UserRepository userRepository;
+	
+	@Autowired
+	private VacationRepository vacationRepository;
 	
 	public AdminServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -110,5 +116,11 @@ public class AdminServiceImpl implements AdminService{
 			return updatedEmployeeDto;
 		}
 		return null;
+	}
+
+
+	@Override
+	public List<VacationDto> getAllAppliedVacations() {
+		return vacationRepository.findAll().stream().map(Vacation::getVacationDto).collect(Collectors.toList());
 	}
 }

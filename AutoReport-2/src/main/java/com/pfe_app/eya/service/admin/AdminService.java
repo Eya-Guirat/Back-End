@@ -2,6 +2,7 @@ package com.pfe_app.eya.service.admin;
 
 import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
+import com.pfe_app.eya.dto.VacationDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,4 +21,6 @@ public interface AdminService {
 	SingleEmployeeDto getEmployeeById(Long employeeId);
 
 	EmployeeDto updateEmployee(Long employeeId, EmployeeDto employeeDto);
+
+	List<VacationDto> getAllAppliedVacations();
 }
