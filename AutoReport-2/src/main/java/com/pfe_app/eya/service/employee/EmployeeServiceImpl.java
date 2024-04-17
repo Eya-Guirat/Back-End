@@ -1,5 +1,6 @@
 package com.pfe_app.eya.service.employee;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,10 +14,14 @@ import org.springframework.stereotype.Service;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
+import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
+import com.pfe_app.eya.entities.Vacation;
 import com.pfe_app.eya.entities.project;
+import com.pfe_app.eya.enums.VacationStatus;
 import com.pfe_app.eya.repository.ProjectRepository;
 import com.pfe_app.eya.repository.UserRepository;
+import com.pfe_app.eya.repository.VacationRepository;
 
 import jakarta.mail.Session;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +38,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private ProjectRepository projectRepository;
+	
+	@Autowired
+	private VacationRepository vacationRepository;
+	
 
 	@Override
 	public SingleEmployeeDto getEmployeeById(Long employeeId) {
@@ -101,6 +110,25 @@ public class EmployeeServiceImpl implements EmployeeService {
 			ProjectDto updatedProjectDto = new ProjectDto();
 			updatedProjectDto.setId(updatedProject.getId());
 			return updatedProjectDto;
+		}
+		return null;
+	}
+
+	@Override
+	public VacationDto applyVacation(VacationDto vacationDto) {
+		Optional<User> optionalUser = userRepository.findById(vacationDto.getUserid());
+		if (optionalUser.isPresent()) {
+			Vacation vacation = new Vacation();
+			vacation.setType(vacationDto.getType());
+			vacation.setSd(vacationDto.getSd());
+			vacation.setEd(vacationDto.getEd());
+			vacation.setDate(new Date());
+			vacation.setVacationStatus(VacationStatus.Pending);
+			vacation.setUser(optionalUser.get());
+			Vacation SubmittedVacation = vacationRepository.save(vacation);
+			VacationDto vacationDto1 = new VacationDto();
+			vacationDto1.setId(SubmittedVacation.getId());
+			return vacationDto1;
 		}
 		return null;
 	}
