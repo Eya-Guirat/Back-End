@@ -26,6 +26,8 @@ public interface EmployeeService {
 
 	VacationDto applyVacation(VacationDto vacationDto);
 
+	List<VacationDto> getAllAppliedVacationsByEmployeeId(Long employeeId);
+
 
 
 }

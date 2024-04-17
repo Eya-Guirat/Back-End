@@ -116,7 +116,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public VacationDto applyVacation(VacationDto vacationDto) {
-		Optional<User> optionalUser = userRepository.findById(vacationDto.getUserid());
+		Optional<User> optionalUser = userRepository.findFirstByEmail(authUser());
 		if (optionalUser.isPresent()) {
 			Vacation vacation = new Vacation();
 			vacation.setType(vacationDto.getType());
@@ -131,6 +131,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return vacationDto1;
 		}
 		return null;
+	}
+
+	@Override
+	public List<VacationDto> getAllAppliedVacationsByEmployeeId(Long employeeId) {
+		return vacationRepository.findAllByUserId(employeeId).stream().map(Vacation::getVacationDto).collect(Collectors.toList());
 	}
 
 	

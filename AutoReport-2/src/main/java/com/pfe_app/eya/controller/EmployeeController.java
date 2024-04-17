@@ -90,5 +90,12 @@ public class EmployeeController {
 			return new ResponseEntity<>("Something went wrong",HttpStatus.BAD_REQUEST);
 		return ResponseEntity.status(HttpStatus.CREATED).body(submittedVacationDto);
 	}
+	
+	@GetMapping("/vacation/{employeeId}")
+	public ResponseEntity<List<VacationDto>> getAllAppliedVacationsByEmployeeId(@PathVariable Long employeeId){
+	 	List<VacationDto> vacationDtos = employeeService.getAllAppliedVacationsByEmployeeId(employeeId);
+	 	if (vacationDtos == null) return ResponseEntity.notFound().build();
+	 	return ResponseEntity.ok(vacationDtos);
+	}
 
 }

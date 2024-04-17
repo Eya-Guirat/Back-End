@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.enums.VacationStatus;
 
 import jakarta.persistence.Entity;
@@ -96,6 +97,18 @@ public class Vacation {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private User user;
+	
+	public VacationDto getVacationDto() {
+		VacationDto vacationDto = new VacationDto();
+		vacationDto.setId(id);
+		vacationDto.setType(type);
+		vacationDto.setSd(sd);
+		vacationDto.setEd(ed);
+		vacationDto.setDate(date);
+		vacationDto.setVacationStatus(vacationStatus);
+		vacationDto.setUserid(user.getId());
+		return vacationDto;
+	}
 	
 	
 }
