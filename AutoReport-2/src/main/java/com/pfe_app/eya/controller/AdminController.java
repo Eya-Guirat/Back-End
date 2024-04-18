@@ -76,5 +76,12 @@ public class AdminController {
 	 	return ResponseEntity.ok(vacationDtos);
 	}
 	
+	@GetMapping("/vacations/{vacationId}/{status}")
+	public ResponseEntity<?> changeVacationstatus(@PathVariable Long vacationId, @PathVariable String status ){
+	 	VacationDto vacationDto = adminService.changeVacationstatus(vacationId,status);
+	 	if (vacationDto == null) return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+	 	return ResponseEntity.ok(vacationDto);
+	}
+	
 
 }

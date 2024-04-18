@@ -23,4 +23,6 @@ public interface AdminService {
 	EmployeeDto updateEmployee(Long employeeId, EmployeeDto employeeDto);
 
 	List<VacationDto> getAllAppliedVacations();
+
+	VacationDto changeVacationstatus(Long vacationId, String status);
 }

@@ -3,6 +3,7 @@ package com.pfe_app.eya.service.admin;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.Vacation;
 import com.pfe_app.eya.enums.UserRole;
+import com.pfe_app.eya.enums.VacationStatus;
 import com.pfe_app.eya.repository.UserRepository;
 import com.pfe_app.eya.repository.VacationRepository;
 
@@ -118,9 +120,28 @@ public class AdminServiceImpl implements AdminService{
 		return null;
 	}
 
-
+ 
 	@Override
 	public List<VacationDto> getAllAppliedVacations() {
 		return vacationRepository.findAll().stream().map(Vacation::getVacationDto).collect(Collectors.toList());
+	}
+
+
+	@Override
+	public VacationDto changeVacationstatus(Long vacationId, String status) {
+		Optional<Vacation> optionalVacation = vacationRepository.findById(vacationId);
+		if(optionalVacation.isPresent()) {
+			Vacation vacation = optionalVacation.get();
+			if (Objects.equals(status, "Approve")){
+				vacation.setVacationStatus(VacationStatus.Approved);
+			} else {
+				vacation.setVacationStatus(VacationStatus.Disapproved);
+			}
+			Vacation updatedVacation = vacationRepository.save(vacation);
+			VacationDto updatedVacationDto = new VacationDto();
+			updatedVacationDto.setId(updatedVacation.getId());
+			return updatedVacationDto;
+		}
+		return null;
 	}
 }
