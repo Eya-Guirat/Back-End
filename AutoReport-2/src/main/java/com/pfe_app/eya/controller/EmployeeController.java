@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +26,7 @@ import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.project;
 import com.pfe_app.eya.service.employee.EmployeeService;
 
+import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 
 
@@ -101,10 +103,17 @@ public class EmployeeController {
 	
 	@PostMapping("/ticket")
 	public ResponseEntity<?> applyTicket(@RequestBody TicketDto ticketDto) {
-		TicketDto submittedTicketDto = employeeService.applyTicket(ticketDto);
-		if (submittedTicketDto == null)
-			return new ResponseEntity<>("Something went wrong",HttpStatus.BAD_REQUEST);
-		return ResponseEntity.status(HttpStatus.CREATED).body(submittedTicketDto);
+	    try {
+	        TicketDto submittedTicketDto = employeeService.applyTicket(ticketDto);
+	        if (submittedTicketDto == null)
+	            return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(submittedTicketDto);
+	    } catch (DataIntegrityViolationException e) {
+	        if (e.getCause() instanceof ConstraintViolationException) {
+	            return new ResponseEntity<>("A ticket with the same name already exists for today.", HttpStatus.BAD_REQUEST);
+	        }
+	        throw e;
+	    }
 	}
 
 }
