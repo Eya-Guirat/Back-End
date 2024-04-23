@@ -107,6 +107,7 @@ public class Vacation {
 		vacationDto.setDate(date);
 		vacationDto.setVacationStatus(vacationStatus);
 		vacationDto.setUserid(user.getId());
+		vacationDto.setName(user.getName()); 
 		return vacationDto;
 	}
 	

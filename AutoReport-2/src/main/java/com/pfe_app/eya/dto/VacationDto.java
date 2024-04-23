@@ -22,6 +22,8 @@ private Long id;
 	private VacationStatus vacationStatus;
 	
 	private Long userid;
+	
+	private String name;
 
 	public Long getId() {
 		return id;
@@ -78,5 +80,13 @@ private Long id;
 	public void setUserid(Long userid) {
 		this.userid = userid;
 	}
+	
+	 public String getName() {
+	        return name;
+	    }
+
+	    public void setName(String name) {
+	        this.name = name;
+	    }
 
 }
