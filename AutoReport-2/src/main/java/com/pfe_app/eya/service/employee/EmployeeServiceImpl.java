@@ -14,12 +14,16 @@ import org.springframework.stereotype.Service;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
+import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
+import com.pfe_app.eya.entities.Ticket;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.Vacation;
 import com.pfe_app.eya.entities.project;
+import com.pfe_app.eya.enums.TicketStatus;
 import com.pfe_app.eya.enums.VacationStatus;
 import com.pfe_app.eya.repository.ProjectRepository;
+import com.pfe_app.eya.repository.TicketRepository;
 import com.pfe_app.eya.repository.UserRepository;
 import com.pfe_app.eya.repository.VacationRepository;
 
@@ -41,6 +45,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 	@Autowired
 	private VacationRepository vacationRepository;
+	
+	@Autowired
+	private TicketRepository ticketRepository;
+	
 	
 
 	@Override
@@ -136,6 +144,30 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<VacationDto> getAllAppliedVacationsByEmployeeId(Long employeeId) {
 		return vacationRepository.findAllByUserId(employeeId).stream().map(Vacation::getVacationDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public TicketDto applyTicket(TicketDto ticketDto) {
+		Optional<User> optionalUser = userRepository.findFirstByEmail(authUser());
+		
+		if (optionalUser.isPresent()) {
+			Ticket ticket = new Ticket();
+			ticket.setTname(ticketDto.getTname());
+			ticket.setDuration(ticketDto.getDuration());
+			ticket.setDate(ticketDto.getDate());
+			ticket.setDescription(ticketDto.getDescription());
+			ticket.setTicketStatus(TicketStatus.ToDo);
+			ticket.setUser(optionalUser.get());
+			
+			project project = projectRepository.findById(ticketDto.getProjectId()).orElseThrow();
+			ticket.setProject(project);
+			
+			Ticket SubmittedTicket = ticketRepository.save(ticket);
+			TicketDto ticketDto1 = new TicketDto();
+			ticketDto1.setId(SubmittedTicket.getId());
+			return ticketDto1;
+		}
+		return null;
 	}
 
 	

@@ -19,6 +19,7 @@ import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
+import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
 import com.pfe_app.eya.entities.project;
@@ -96,6 +97,14 @@ public class EmployeeController {
 	 	List<VacationDto> vacationDtos = employeeService.getAllAppliedVacationsByEmployeeId(employeeId);
 	 	if (vacationDtos == null) return ResponseEntity.notFound().build();
 	 	return ResponseEntity.ok(vacationDtos);
+	}
+	
+	@PostMapping("/ticket")
+	public ResponseEntity<?> applyTicket(@RequestBody TicketDto ticketDto) {
+		TicketDto submittedTicketDto = employeeService.applyTicket(ticketDto);
+		if (submittedTicketDto == null)
+			return new ResponseEntity<>("Something went wrong",HttpStatus.BAD_REQUEST);
+		return ResponseEntity.status(HttpStatus.CREATED).body(submittedTicketDto);
 	}
 
 }
