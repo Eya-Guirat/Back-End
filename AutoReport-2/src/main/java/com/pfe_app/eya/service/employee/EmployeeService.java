@@ -6,6 +6,7 @@ import java.util.Optional;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
+import com.pfe_app.eya.dto.SingleTicketDto;
 import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
@@ -32,6 +33,12 @@ public interface EmployeeService {
 	TicketDto applyTicket(TicketDto ticketDto);
 
 	List<TicketDto> getAllTickets(Long employeeId);
+
+	void deleteTicket(Long ticketId);
+
+	SingleTicketDto getTicketById(Long ticketId);
+
+	TicketDto updateTicket(Long ticketId, TicketDto ticketDto);
 	
 
 

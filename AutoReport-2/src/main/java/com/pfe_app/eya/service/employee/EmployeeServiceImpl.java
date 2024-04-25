@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
+import com.pfe_app.eya.dto.SingleTicketDto;
 import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.Ticket;
@@ -173,6 +174,43 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<TicketDto> getAllTickets(Long employeeId) {
 		return ticketRepository.findAllByUserId(employeeId).stream().map(Ticket::getTicketDto).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteTicket(Long ticketId) {
+		ticketRepository.deleteById(ticketId);
+		
+	}
+
+	@Override
+	public SingleTicketDto getTicketById(Long ticketId) {
+	    Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
+	    if (optionalTicket.isPresent()) {
+	        SingleTicketDto singleTicketDto = new SingleTicketDto();
+	        singleTicketDto.setTicketDto(optionalTicket.get().getTicketDto());
+	        return singleTicketDto;
+	    }
+	    return null;
+	}
+
+	@Override
+	public TicketDto updateTicket(Long ticketId, TicketDto ticketDto) {
+		Optional<Ticket> optionalTicket = ticketRepository.findById(ticketId);
+		Optional<project> optionalProject = projectRepository.findById(ticketDto.getProjectId());
+		if (optionalTicket.isPresent()) {
+			Ticket updateTicket = optionalTicket.get();
+			updateTicket.setTname(ticketDto.getTname());
+			updateTicket.setDate(ticketDto.getDate());
+			updateTicket.setDescription(ticketDto.getDescription());
+			updateTicket.setDuration(ticketDto.getDuration());
+			updateTicket.setTicketStatus(ticketDto.getTicketStatus());
+			updateTicket.setProject(optionalProject.get());
+			Ticket updatedTicket = ticketRepository.save(updateTicket);
+			TicketDto updatedTicketDto = new TicketDto();
+			updatedTicketDto.setId(updatedTicket.getId());
+			return updatedTicketDto;
+		}
+		return null;
 	}
 
 	

@@ -20,6 +20,7 @@ import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
+import com.pfe_app.eya.dto.SingleTicketDto;
 import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
@@ -122,5 +123,28 @@ public class EmployeeController {
 	 	if (ticketDtos == null) return ResponseEntity.notFound().build();
 	 	return ResponseEntity.ok(ticketDtos);
 	}
+	@DeleteMapping("/ticket/{ticketId}")
+	public ResponseEntity<Void> deleteTicket(@PathVariable Long ticketId){
+		employeeService.deleteTicket(ticketId);
+		return ResponseEntity.noContent().build();
+	}
+	
+	@GetMapping("/{employeeId}/ticket/{ticketId}")
+	public ResponseEntity<SingleTicketDto> getTicketById(@PathVariable Long ticketId, @PathVariable Long employeeId) {
+	    SingleTicketDto singleTicketDto = employeeService.getTicketById(ticketId);
+	    if (singleTicketDto == null)
+	        return ResponseEntity.notFound().build();
+	    return ResponseEntity.ok(singleTicketDto);
+	}
+	
+	@PutMapping("/{employeeId}/ticket/{ticketId}")
+	public ResponseEntity<?> updateTicket(@PathVariable Long ticketId,@RequestBody TicketDto ticketDto, @PathVariable Long employeeId ){
+			
+		TicketDto updatedTicketDto = employeeService.updateTicket(ticketId,ticketDto);
+		if (updatedTicketDto == null)
+			return new ResponseEntity<>("something went wrong.", HttpStatus.BAD_REQUEST);
+		return ResponseEntity.status(HttpStatus.OK).body(updatedTicketDto);
+	}
+
 
 }
