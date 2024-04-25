@@ -170,6 +170,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return null;
 	}
 
+	@Override
+	public List<TicketDto> getAllTickets(Long employeeId) {
+		return ticketRepository.findAllByUserId(employeeId).stream().map(Ticket::getTicketDto).collect(Collectors.toList());
+	}
+
 	
 
 

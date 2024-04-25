@@ -115,5 +115,12 @@ public class EmployeeController {
 	        throw e;
 	    }
 	}
+	
+	@GetMapping("/ticket/{employeeId}")
+	public ResponseEntity<List<TicketDto>> getAllTickets(@PathVariable Long employeeId){
+	 	List<TicketDto> ticketDtos = employeeService.getAllTickets(employeeId);
+	 	if (ticketDtos == null) return ResponseEntity.notFound().build();
+	 	return ResponseEntity.ok(ticketDtos);
+	}
 
 }

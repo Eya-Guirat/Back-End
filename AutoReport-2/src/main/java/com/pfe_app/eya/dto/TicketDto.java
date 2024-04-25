@@ -19,6 +19,16 @@ public class TicketDto {
 	
 	private String description;
 	
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
+
+	private String projectName;
+	
 	public String getDescription() {
 		return description;
 	}

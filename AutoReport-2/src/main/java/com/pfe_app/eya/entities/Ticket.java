@@ -7,7 +7,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pfe_app.eya.dto.TicketDto;
-import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.enums.TicketStatus;
 
 import jakarta.persistence.Column;
@@ -133,6 +132,7 @@ public class Ticket {
 		ticketDto.setDescription(description);
 		ticketDto.setUserid(user.getId());
 		ticketDto.setProjectId(project.getId());
+		ticketDto.setProjectName(project.getName());
 		return ticketDto;
 	}
 

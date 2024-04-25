@@ -31,6 +31,8 @@ public interface EmployeeService {
 
 	TicketDto applyTicket(TicketDto ticketDto);
 
+	List<TicketDto> getAllTickets(Long employeeId);
+	
 
 
 }
