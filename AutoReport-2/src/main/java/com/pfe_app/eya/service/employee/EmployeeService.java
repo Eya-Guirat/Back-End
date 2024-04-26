@@ -39,6 +39,8 @@ public interface EmployeeService {
 	SingleTicketDto getTicketById(Long ticketId);
 
 	TicketDto updateTicket(Long ticketId, TicketDto ticketDto);
+
+	void deleteVacation(Long vacationId);
 	
 
 

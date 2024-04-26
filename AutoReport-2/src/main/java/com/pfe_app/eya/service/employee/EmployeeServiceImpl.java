@@ -146,6 +146,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<VacationDto> getAllAppliedVacationsByEmployeeId(Long employeeId) {
 		return vacationRepository.findAllByUserId(employeeId).stream().map(Vacation::getVacationDto).collect(Collectors.toList());
 	}
+	
+	@Override
+	public void deleteVacation(Long vacationId) {
+		vacationRepository.deleteById(vacationId);
+		
+	}
 
 	@Override
 	public TicketDto applyTicket(TicketDto ticketDto) {
@@ -212,6 +218,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return null;
 	}
+
+	
 
 	
 

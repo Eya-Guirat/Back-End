@@ -102,6 +102,12 @@ public class EmployeeController {
 	 	return ResponseEntity.ok(vacationDtos);
 	}
 	
+	@DeleteMapping("/vacation/{vacationId}")
+	public ResponseEntity<Void> deleteVacation(@PathVariable Long vacationId){
+		employeeService.deleteVacation(vacationId);
+		return ResponseEntity.noContent().build();
+	}
+	
 	@PostMapping("/ticket")
 	public ResponseEntity<?> applyTicket(@RequestBody TicketDto ticketDto) {
 	    try {
@@ -123,6 +129,7 @@ public class EmployeeController {
 	 	if (ticketDtos == null) return ResponseEntity.notFound().build();
 	 	return ResponseEntity.ok(ticketDtos);
 	}
+	
 	@DeleteMapping("/ticket/{ticketId}")
 	public ResponseEntity<Void> deleteTicket(@PathVariable Long ticketId){
 		employeeService.deleteTicket(ticketId);
