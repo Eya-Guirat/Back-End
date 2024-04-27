@@ -21,6 +21,7 @@ import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
 import com.pfe_app.eya.dto.SingleTicketDto;
+import com.pfe_app.eya.dto.SingleVacationDto;
 import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
@@ -106,6 +107,23 @@ public class EmployeeController {
 	public ResponseEntity<Void> deleteVacation(@PathVariable Long vacationId){
 		employeeService.deleteVacation(vacationId);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@PutMapping("/{employeeId}/vacation/{vacationId}")
+	public ResponseEntity<?> updateVacation(@PathVariable Long vacationId,@RequestBody VacationDto vacationDto, @PathVariable Long employeeId ){
+			
+		VacationDto updatedVacationDto = employeeService.updateVacation(vacationId,vacationDto);
+		if (updatedVacationDto == null)
+			return new ResponseEntity<>("something went wrong.", HttpStatus.BAD_REQUEST);
+		return ResponseEntity.status(HttpStatus.OK).body(updatedVacationDto);
+	}
+	
+	@GetMapping("/{employeeId}/vacation/{vacationId}")
+	public ResponseEntity<SingleVacationDto> getVacationById(@PathVariable Long vacationId, @PathVariable Long employeeId) {
+		SingleVacationDto singleVacationDto = employeeService.getVacationById(vacationId);
+	    if (singleVacationDto == null)
+	        return ResponseEntity.notFound().build();
+	    return ResponseEntity.ok(singleVacationDto);
 	}
 	
 	@PostMapping("/ticket")

@@ -7,6 +7,7 @@ import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
 import com.pfe_app.eya.dto.SingleTicketDto;
+import com.pfe_app.eya.dto.SingleVacationDto;
 import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.User;
@@ -41,6 +42,10 @@ public interface EmployeeService {
 	TicketDto updateTicket(Long ticketId, TicketDto ticketDto);
 
 	void deleteVacation(Long vacationId);
+
+	SingleVacationDto getVacationById(Long vacationId);
+
+	VacationDto updateVacation(Long vacationId, VacationDto vacationDto);
 	
 
 

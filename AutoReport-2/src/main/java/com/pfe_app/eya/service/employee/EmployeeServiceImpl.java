@@ -15,6 +15,7 @@ import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
 import com.pfe_app.eya.dto.SingleTicketDto;
+import com.pfe_app.eya.dto.SingleVacationDto;
 import com.pfe_app.eya.dto.TicketDto;
 import com.pfe_app.eya.dto.VacationDto;
 import com.pfe_app.eya.entities.Ticket;
@@ -152,6 +153,36 @@ public class EmployeeServiceImpl implements EmployeeService {
 		vacationRepository.deleteById(vacationId);
 		
 	}
+	
+	@Override
+	public SingleVacationDto getVacationById(Long vacationId) {
+		Optional<Vacation> optionalVacation = vacationRepository.findById(vacationId);
+	    if (optionalVacation.isPresent()) {
+	    	SingleVacationDto singleVacationDto = new SingleVacationDto();
+	    	singleVacationDto.setVacationDto(optionalVacation.get().getVacationDto());
+	        return singleVacationDto;
+	    }
+		return null;
+	}
+	
+	@Override
+	public VacationDto updateVacation(Long vacationId, VacationDto vacationDto) {
+		Optional<Vacation> optionalVacation = vacationRepository.findById(vacationId);
+		if (optionalVacation.isPresent()) {
+			Vacation updateVacation = optionalVacation.get();
+			updateVacation.setType(vacationDto.getType());
+			updateVacation.setSd(vacationDto.getSd());
+			updateVacation.setEd(vacationDto.getEd());
+			updateVacation.setDate(new Date());
+			Vacation updatedVacation = vacationRepository.save(updateVacation);
+			VacationDto updatedVacationDto = new VacationDto();
+			updatedVacationDto.setId(updatedVacation.getId());
+			return updatedVacationDto;
+		}
+		return null;
+	}
+	
+	
 
 	@Override
 	public TicketDto applyTicket(TicketDto ticketDto) {
@@ -218,6 +249,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return null;
 	}
+
+	
+
+	
 
 	
 
