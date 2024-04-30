@@ -104,7 +104,7 @@ public class Ticket {
 
 	private float duration;
 	
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date date;
 	
 	private TicketStatus ticketStatus;
