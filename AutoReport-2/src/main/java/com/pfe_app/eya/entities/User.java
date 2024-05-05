@@ -27,7 +27,7 @@ public class User {
 	
 	private String password;
 	
-	private Date dob;
+	private Date dob; 	
 	
 	private String gender;
 	

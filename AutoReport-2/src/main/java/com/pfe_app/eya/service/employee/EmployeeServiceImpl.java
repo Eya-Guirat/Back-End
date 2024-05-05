@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
@@ -91,7 +93,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<ProjectDto> getAllProjects() {
 		return projectRepository.findAll().stream().map(project::getProjectDto).collect(Collectors.toList());
-	}
+	}	
 
 	@Override
 	public void deleteProject(Long projectId) {
@@ -249,6 +251,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 		return null;
 	}
+
+	@Override
+	public EmployeeDto updateEmployee(Long employeeId, EmployeeDto employeeDto) {
+	    Optional<User> optionalUser = userRepository.findById(employeeId);
+	    if (optionalUser.isPresent()) {
+	        User user = optionalUser.get();
+	        user.setName(employeeDto.getName());
+	        user.setGender(employeeDto.getGender());
+	        user.setDob(employeeDto.getDob());
+	        user.setEmail(employeeDto.getEmail()) ;
+	        if (employeeDto.getPassword() != null) {
+	        	System.out.println(new BCryptPasswordEncoder().encode(employeeDto.getPassword())+ " Password :  " + employeeDto.getPassword() );
+	            user.setPassword(employeeDto.getPassword());
+	        } 
+	        User updatedEmployee = userRepository.save(user);
+	        EmployeeDto updatedEmployeeDto = new EmployeeDto();
+	        updatedEmployeeDto.setId(updatedEmployee.getId());
+	        return updatedEmployeeDto;
+	    }
+	    return null;
+	}
+//	$2a$10$ebilhLo0wSsNcexLjYEy7e10QWxrRZUbWsFdFykG/nzOfwvYS5oA2
 
 	
 

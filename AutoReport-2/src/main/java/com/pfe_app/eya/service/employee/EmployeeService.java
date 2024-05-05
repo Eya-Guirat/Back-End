@@ -3,6 +3,7 @@ package com.pfe_app.eya.service.employee;
 import java.util.List;
 import java.util.Optional;
 
+import com.pfe_app.eya.dto.EmployeeDto;
 import com.pfe_app.eya.dto.ProjectDto;
 import com.pfe_app.eya.dto.SingleEmployeeDto;
 import com.pfe_app.eya.dto.SingleProjectDto;
@@ -46,6 +47,8 @@ public interface EmployeeService {
 	SingleVacationDto getVacationById(Long vacationId);
 
 	VacationDto updateVacation(Long vacationId, VacationDto vacationDto);
+
+	EmployeeDto updateEmployee(Long employeeId, EmployeeDto employeeDto);
 	
 
 

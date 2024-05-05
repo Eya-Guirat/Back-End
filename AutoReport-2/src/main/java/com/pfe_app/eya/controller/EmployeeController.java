@@ -171,5 +171,14 @@ public class EmployeeController {
 		return ResponseEntity.status(HttpStatus.OK).body(updatedTicketDto);
 	}
 
+	
+	@PutMapping("/{employeeId}")
+	public ResponseEntity<?> updateEmployee(@PathVariable Long employeeId,@RequestBody EmployeeDto employeeDto ){
+			
+		EmployeeDto createdEmployeeDto = employeeService.updateEmployee(employeeId,employeeDto);
+		if (createdEmployeeDto == null)
+			return new ResponseEntity<>("something went wrong.", HttpStatus.BAD_REQUEST);
+		return ResponseEntity.status(HttpStatus.CREATED).body(createdEmployeeDto);
+	}
 
 }
